@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.14",
+    "ai": "^5.0.44",
+    "simple-git": "^3.28.0",
+    "zod": "^4.1.8"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "eslint": "^9.35.0"
+  }
+}

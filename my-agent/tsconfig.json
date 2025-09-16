@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    // 🌐 Environment & Language Features
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "allowJs": true,
+
+    // 📦 Module & Bundler Integration
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+
+    // ✅ Type Safety & Best Practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    // 🧹 Lint-Like Strictness (opt-in)
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": true,
+
+    // 🛠️ Project Hygiene
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  }
+}

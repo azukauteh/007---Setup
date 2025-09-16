@@ -1,0 +1,33 @@
+{
+  "name": "my-agent",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "main": "index.ts",
+
+  "scripts": {
+    "dev": "bun run index.ts",
+    "lint": "bunx eslint . --ext .ts",
+    "format": "bunx prettier --write .",
+    "check": "bunx tsc --noEmit"
+  },
+
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "@ai-sdk/google": "^0.1.0",
+    "vercel-ai": "^0.3.0"
+  },
+
+  "devDependencies": {
+    "@types/bun": "latest",
+    "eslint": "^8.57.1",
+    "@typescript-eslint/parser": "^6.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.3"
+  },
+
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

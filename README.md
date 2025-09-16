@@ -5,6 +5,7 @@
 [![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI-SDK-black?logo=vercel&logoColor=white)](https://sdk.vercel.ai)
 [![Google AI SDK](https://img.shields.io/badge/@ai--sdk/google-Gemini_2.5_Flash-orange?logo=google&logoColor=white)](https://www.npmjs.com/package/@ai-sdk/google)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Copilot](https://img.shields.io/badge/Microsoft_Copilot-AI_Companion-blueviolet?logo=microsoft&logoColor=white)](https://www.microsoft.com/en-us/copilot)
 
 > A blazing-fast, audit-grade AI code reviewer powered by [Bun](https://bun.sh), [Vercel AI SDK](https://sdk.vercel.ai), and [@ai-sdk/google](https://www.npmjs.com/package/@ai-sdk/google).  
 

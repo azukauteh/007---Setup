@@ -1,14 +1,14 @@
 
-
-```md
 # 🕵️‍♂️ 007 AI Agent
 
-[![Bun](https://img.shields.io/badge/Bun-v1.1.29-brightgreen?logo=bun)](https://bun.sh)
-[![Vercel AI](https://img.shields.io/badge/Vercel_AI-SDK-blue?logo=vercel)](https://sdk.vercel.ai)
-[![Google AI SDK](https://img.shields.io/badge/@ai--sdk/google-Gemini_2.5_Flash-orange)](https://www.npmjs.com/package/@ai-sdk/google)
+[![Bun](https://img.shields.io/badge/Bun-v1.1.29-brightgreen?logo=bun&logoColor=white)](https://bun.sh)
+[![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI-SDK-black?logo=vercel&logoColor=white)](https://sdk.vercel.ai)
+[![Google AI SDK](https://img.shields.io/badge/@ai--sdk/google-Gemini_2.5_Flash-orange?logo=google&logoColor=white)](https://www.npmjs.com/package/@ai-sdk/google)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A blazing-fast, audit-grade AI code reviewer powered by [Bun](https://bun.sh), [Vercel AI](https://sdk.vercel.ai), and [@ai-sdk/google](https://www.npmjs.com/package/@ai-sdk/google). This agent analyzes Git diffs, streams intelligent feedback, and helps you maintain clean, scalable codebases—file by file.
+> A blazing-fast, audit-grade AI code reviewer powered by [Bun](https://bun.sh), [Vercel AI SDK](https://sdk.vercel.ai), and [@ai-sdk/google](https://www.npmjs.com/package/@ai-sdk/google).  
+
+> This agent analyzes Git diffs, streams intelligent feedback, and helps you maintain clean, scalable codebases—file by file.
 
 ---
 

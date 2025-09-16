@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // 🌐 Environment & Language Features
+//🌐 Environment & Language Features
     "lib": ["ESNext"],
     "target": "ESNext",
     "jsx": "react-jsx",

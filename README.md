@@ -36,32 +36,103 @@
 
 ---
 
-## 🛠️ Setup
 
-1. **Clone the repository**  
-   ```bash
-   cd 007---Setup/my-agent
-   ```
+## 🛠️ Setup Guide
 
-2. **Install dependencies**  
-   ```bash
-   bun install
-   ```
+### 1. **Clone the repository**  
+Navigate to the agent directory:
 
-3. **Configure API key**  
-   Create a `.env` file in the `workspace` root:  
-   ```env
-   GOOGLE_GENERATIVE_AI_API_KEY=your-google-api-key-here
-   ```
+```bash
+cd 007---Setup/my-agent
+```
 
-4. **Run the agent**  
-   ```bash
-   bun run index.ts
-   ```
+### 2. Install Bun 
+Bun is a fast JavaScript runtime. To install it:
 
-> **Note**: Obtain your `GOOGLE_GENERATIVE_AI_API_KEY` from [Google AI Studio](https://aistudio.google.com).
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+ verify:
+
+```bash
+bun --version
+```
+
+> 💡 If you're using Linux, make sure `~/.bun/bin` is added to your `PATH`.
 
 ---
+
+
+### 3. Install dependencies
+Run:
+
+```bash
+bun install
+```
+
+This installs all packages listed in `package.json`.
+
+---
+
+### 4.Configure your `.env` file**  
+Create a `.env` file in the workspace root (`007---Setup/`):
+
+```bash
+touch ../.env
+```
+
+Then add your API key and runtime settings:
+
+```env
+# === API Keys ===
+GOOGLE_GENERATIVE_AI_API_KEY=your-google-api-key-here
+
+# === Agent Configuration ===
+AGENT_NAME=007
+AGENT_MODE=diff-summary
+LOG_LEVEL=info
+
+# === Git Integration ===
+GIT_AUTHOR=Azuka
+GIT_EMAIL=example@gmail.com
+
+# === Runtime Settings ===
+PORT=3000
+TIMEOUT_MS=10000
+```
+> 🔐 **Important**: Never commit `.env` to version control. Add it to `.gitignore`.
+
+---
+
+### 5. **Verify `.env` is loaded correctly**  
+In `index.ts`, you can temporarily add:
+
+```ts
+console.log("Loaded API key:", process.env.GOOGLE_GENERATIVE_AI_API_KEY);
+```
+
+Run:
+
+```bash
+bun run index.ts
+```
+
+If it prints your key, you're good to go.
+
+---
+
+### 6. Run the agent 
+Start the agent:
+
+```bash
+bun run 007    
+```
+
+It will stream code review output based on your prompt.
+
+---
+
 
 ## 🧠 How It Works
 

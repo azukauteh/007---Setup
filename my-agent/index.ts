@@ -1,24 +1,27 @@
-
 import { config } from "dotenv";
+import { z } from "zod";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { stepCountIs, streamText } from "ai";
-import { google } from "@ai-sdk/google";
 import { SYSTEM_PROMPT } from "./prompts";
 import { getFileChangesInDirectoryTool } from "../tools";
+import path from "path";
 
- // load .env from parent
-config({ path: "../.env" });
+// Load .env from parent directory
+config({ path: path.resolve(__dirname, "../.env") });
 
-// Load API key from environment
-const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-
-if (!apiKey) {
-  throw new Error("Missing GOOGLE_GENERATIVE_AI_API_KEY in .env");
-}
-
-// Initialize model with explicit API key
-const model = google("models/gemini-2.5-flash", {
-  apiKey,
+// Validate environment
+const envSchema = z.object({
+  GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(10),
 });
+const env = envSchema.parse(process.env);
+const apiKey = env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+// Initialize Gemini client
+const genAI = createGoogleGenerativeAI({ apiKey });
+
+// Select model
+const model = genAI("models/gemini-2.5-flash");
+
 
 /**
  * Asynchronously runs a code review agent using streamed AI output.
@@ -26,7 +29,7 @@ const model = google("models/gemini-2.5-flash", {
  * @param {string} prompt - A natural language instruction specifying what the agent should review.
  *
  * The agent uses:
- * - `google("models/gemini-2.5-flash")` as the LLM backend
+ * - Gemini 2.5 Flash via `GoogleGenerativeAI`
  * - `SYSTEM_PROMPT` to define reviewer behavior and tone
  * - `getFileChangesInDirectoryTool` to fetch file diffs from a Git directory
  * - `stepCountIs(10)` to limit the number of reasoning steps
@@ -57,6 +60,5 @@ const codeReviewAgent = async (prompt: string) => {
  * - Provide feedback and suggestions file by file
  */
 await codeReviewAgent(
-  "Review the code changes in '../my-agent' directory, make your reviews and suggestions file by file"
+  " Review the code changes in '.' directory, make your reviews and suggestions file by file"
 );
-// temp change

@@ -134,6 +134,10 @@ bun run 007
 
 It will stream code review output based on your prompt.
 
+
+![Bond Animation](https://i.imgur.com/q0j2xFK.png)
+![Bond Animation](https://i.imgur.com/W33RTnP.png)
+
 ---
 
 

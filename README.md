@@ -1,5 +1,8 @@
 
-# 🕵️‍♂️ 007 AI Agent
+
+# 007 AI  code review Agent
+![Bond Animation](https://i.imgur.com/Nr9yi3B.png)
+
 
 [![Bun](https://img.shields.io/badge/Bun-v1.1.29-brightgreen?logo=bun&logoColor=white)](https://bun.sh)
 [![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI-SDK-black?logo=vercel&logoColor=white)](https://sdk.vercel.ai)
@@ -79,7 +82,7 @@ This installs all packages listed in `package.json`.
 Create a `.env` file in the workspace root (`007---Setup/`):
 
 ```bash
-touch ../.env
+touch .env
 ```
 
 Then add your API key and runtime settings:
@@ -146,15 +149,31 @@ It will stream code review output based on your prompt.
 ## 📁 Project Structure
 
 ```
-workspace/
-├── my-agent/
-│   ├── index.ts              # Entry point
-│   ├── package.json          # Dependencies
-│   ├── tsconfig.json         # TypeScript config
-│   └── .env                  # API key (loaded from parent if needed)
-├── prompts.ts                # System prompt for reviewer behavior
-├── tools.ts                  # Git diff tool integration
-└── README.md                 # Project documentation
+007---Setup/                      # 🧠 Workspace root
+├── README.md                     # Workspace-level documentation
+├── bun.lock                      # Bun lockfile for reproducible installs
+├── package.json                  # Workspace config (can declare workspaces)
+├── setup.md                      # Contributor onboarding guide
+│
+├── my-agent/                     # 🧠 Modular agent logic
+│   ├── index.ts                  # Agent entry point
+│   ├── package.json              # Agent-specific dependencies and scripts
+│   ├── tsconfig.json             # TypeScript config scoped to agent
+│   ├── .env                      # API keys and runtime settings
+│
+│   ├── prompts.ts                # System prompt for reviewer behavior
+│   ├── tools/                    # 🔧 Modular tools
+│   │   ├── gitDiff.ts            # Git diff integration
+│   │   ├── markdownWriter.ts     # Markdown formatting utility
+│   │   ├── commitMessage.ts      # Commit message generator
+│   │   └── checkDuplicates.ts    # Duplicate file detection
+│
+│   ├── test/                     # ✅ Agent tests
+│   │   ├── agent.test.ts         # Prompt handling and edge cases
+│   │   └── tools.test.ts         # Git tooling and utilities
+│
+│   └── setup.md                  # Agent-specific onboarding 
+
 ```
 
 ---

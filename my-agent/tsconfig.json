@@ -1,34 +1,39 @@
 {
-  "compilerOptions": {
-//🌐 Environment & Language Features
-    "lib": ["ESNext"],
-    "target": "ESNext",
-    "jsx": "react-jsx",
-    "allowJs": true,
+	"compilerOptions": {
+		// 🌐 Environment & Language Features
+		"lib": ["ESNext"],
+		"target": "ESNext",
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"types": ["bun-types"],
+		"baseUrl": ".",
+		"paths": {
+			"*": ["*"]
+		},
 
-    // 📦 Module & Bundler Integration
-    "module": "Preserve",
-    "moduleResolution": "bundler",
-    "moduleDetection": "force",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "noEmit": true,
+		// 📦 Module & Bundler Integration
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"noEmit": true,
 
-    // ✅ Type Safety & Best Practices
-    "strict": true,
-    "skipLibCheck": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
+		// ✅ Type Safety & Best Practices
+		"strict": true,
+		"skipLibCheck": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
 
-    // 🧹 Lint-Like Strictness (opt-in)
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noPropertyAccessFromIndexSignature": true,
+		// 🧹 Lint-Like Strictness (opt-in)
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noPropertyAccessFromIndexSignature": true,
 
-    // 🛠️ Project Hygiene
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true
-  }
+		// 🛠️ Project Hygiene
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true
+	}
 }

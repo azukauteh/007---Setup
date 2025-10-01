@@ -9,17 +9,28 @@
  * generateCommitMessage(["add tests", "update README"], "chore");
  * // "chore: add tests, update README"
  */
-export function generateCommitMessage(changes: string[], context?: string): string {
-    const defaultType = "feat";
-  
-    // Normalize context to match conventional commit types
-    const validTypes = ["feat", "fix", "chore", "docs", "refactor", "test", "style"];
-    const type = context && validTypes.includes(context) ? context : defaultType;
-  
-    const summary = changes.length > 0
-      ? changes.map(change => change.trim()).join(", ")
-      : "initial setup";
-  
-    return `${type}: ${summary}`;
-  }
-  
+export function generateCommitMessage(
+	changes: string[],
+	context?: string,
+): string {
+	const defaultType = "feat";
+
+	// Normalize context to match conventional commit types
+	const validTypes = [
+		"feat",
+		"fix",
+		"chore",
+		"docs",
+		"refactor",
+		"test",
+		"style",
+	];
+	const type = context && validTypes.includes(context) ? context : defaultType;
+
+	const summary =
+		changes.length > 0
+			? changes.map((change) => change.trim()).join(", ")
+			: "initial setup";
+
+	return `${type}: ${summary}`;
+}

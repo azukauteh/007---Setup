@@ -118,7 +118,7 @@ console.log("Loaded API key:", process.env.GOOGLE_GENERATIVE_AI_API_KEY);
 Run:
 
 ```bash
-bun run index.ts
+bun run my-agent/index.ts
 ```
 
 If it prints your key, you're good to go.
@@ -129,7 +129,7 @@ If it prints your key, you're good to go.
 Start the agent:
 
 ```bash
-bun run 007    
+bun run my-agent/index.ts    
 ```
 
 It will stream code review output based on your prompt.

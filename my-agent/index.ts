@@ -62,6 +62,6 @@ export const codeReviewAgent = async (prompt: string): Promise<string> => {
 // 🚀 Optional: Run agent if this file is executed directly
 if (import.meta.main) {
 	await codeReviewAgent(
-		"Review the code changes in '.' directory. Make your reviews and suggestions file by file.",
-	);
+		"Review the code changes in './my-agent' directory, make your reviews and suggestions file by file"
+		);
 }

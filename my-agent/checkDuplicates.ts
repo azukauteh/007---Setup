@@ -1,8 +1,8 @@
 // checkDuplicates.ts
 // 🧹 Utility to detect duplicate filenames in a directory
 
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 export const checkForDuplicateFiles = (dir: string) => {
 	const files = fs.readdirSync(dir);

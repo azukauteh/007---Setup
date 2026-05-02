@@ -1,116 +1,141 @@
 /**
  *  index.ts🧠 Agent 007 – AI-Powered Code Review
- *  Streams Gemini output, detects duplicate files, and formats results for contributor clarity
+ *  Streams Gemini output, detects duplicate files, and
+ *                  formats results for contributor clarity
  */
 
-import { config } from "dotenv";
-import { z } from "zod";
+import path from "node:path";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { streamText } from "ai";
+import chalk from "chalk";
+import { config } from "dotenv";
+import { z } from "zod";
+import { checkForDuplicateFiles } from "./checkDuplicates";
 import { SYSTEM_PROMPT } from "./prompts";
 import { getFileChangesInDirectoryTool } from "./tools/getFileChangesInDirectoryTool";
-import { checkForDuplicateFiles } from "./checkDuplicates";
-import path from "path";
-import chalk from "chalk";
 
-// 🔐 Load .env from parent directory
+// 🔐 Load .env
 config({ path: path.resolve(__dirname, "../.env") });
 
-// ✅ Validate environment variables
+// ✅ Validate env
 const envSchema = z.object({
-  GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(10),
+	GOOGLE_GENERATIVE_AI_API_KEY: z.string().min(10),
 });
 const env = envSchema.parse(process.env);
-const apiKey = env.GOOGLE_GENERATIVE_AI_API_KEY;
 
-// 🤖 Initialize Gemini client
-const genAI = createGoogleGenerativeAI({ apiKey });
+// 🤖 Model init
+const genAI = createGoogleGenerativeAI({
+	apiKey: env.GOOGLE_GENERATIVE_AI_API_KEY,
+});
 const model = genAI("models/gemini-2.5-flash");
 
 // 🧠 Thinking animation
 async function showThinking(message = "🧠 Agent 007 is Thinking") {
-  const dots = ["", ".", "..", "..."];
-  let i = 0;
+	const dots = ["", ".", "..", "..."];
+	let i = 0;
 
-  return new Promise<void>((resolve) => {
-    const interval = setInterval(() => {
-      process.stdout.write(`\r${chalk.blueBright(message)}${dots[i]}`);
-      i = (i + 1) % dots.length;
-    }, 500);
+	return new Promise<void>((resolve) => {
+		const interval = setInterval(() => {
+			process.stdout.write(`\r${chalk.blueBright(message)}${dots[i]}`);
+			i = (i + 1) % dots.length;
+		}, 400);
 
-    setTimeout(() => {
-      clearInterval(interval);
-      process.stdout.write("\n");
-      resolve();
-    }, 3000);
-  });
+		setTimeout(() => {
+			clearInterval(interval);
+			process.stdout.write("\n");
+			resolve();
+		}, 2000);
+	});
 }
 
 /**
- * Runs the Agent 007 code reviewer using streamed AI output.
+ * 🧠 Agent 007 Reviewer
+ * @param externalPrompt optional PR-level prompt
  */
-export const codeReviewAgent = async (): Promise<void> => {
-  // 🧹 Check for duplicate files before review
-  checkForDuplicateFiles("./");
+export const codeReviewAgent = async (
+	externalPrompt?: string,
+): Promise<string> => {
+	checkForDuplicateFiles("./");
 
-  console.log(chalk.green("\n✅ No duplicate files found.\n"));
-  await showThinking();
+	console.log(chalk.green("\n✅ No duplicate files found.\n"));
+	await showThinking();
 
-  // 🔍 Get file changes
-  const changes = await getFileChangesInDirectoryTool("./my-agent");
+	let output = "";
 
-  if (!changes.success) {
-    console.error(chalk.red(`❌ Error: ${changes.error}`));
-    return;
-  }
+	// 🔥 PR-level review (server/webhook mode)
+	if (externalPrompt) {
+		const result = streamText({
+			model,
+			prompt: externalPrompt,
+			system: SYSTEM_PROMPT,
+		});
 
-  console.log(chalk.blueBright("\n🧠 Agent 007 Review Start\n"));
+		for await (const chunk of result.textStream) {
+			process.stdout.write(chalk.white(chunk));
+			output += chunk;
+		}
 
-  for (const file of changes.files) {
-    console.log(chalk.bold(`File: ${file.path}`));
+		console.log(chalk.greenBright("\n✅ Review Complete\n"));
+		return output;
+	}
 
-    const diffContent = [
-      ...(file.stagedDiffs || []),
-      ...(file.unstagedDiffs || []),
-    ].join("\n");
+	// 🔍 CLI mode (local diffs)
+	const changes = await getFileChangesInDirectoryTool("./my-agent");
 
-    if (!diffContent) {
-      console.log(chalk.gray("No diff content available.\n"));
-      continue;
-    }
+	if (!changes.success || !changes.files) {
+		console.error(chalk.red(`❌ Error: ${changes.error}`));
+		return "";
+	}
 
-    // 🎯 Structured review prompt
-    const reviewPrompt = `
-      Review the following diff for ${file.path}.
-      Summarize issues under categories:
-      - Security
-      - Bugs
-      - Performance
-      - Style
+	console.log(chalk.blueBright("\n🧠 Agent 007 Review Start\n"));
 
-      Diff:
-      ${diffContent}
-    `;
+	for (const file of changes.files) {
+		console.log(chalk.bold(`File: ${file.path}`));
 
-    // 🧠 Stream Gemini output
-    const result = streamText({
-      model,
-      prompt: reviewPrompt,
-      system: SYSTEM_PROMPT,
-    });
+		const diffContent = [
+			...(file.stagedDiffs || []),
+			...(file.unstagedDiffs || []),
+		].join("\n");
 
-    for await (const chunk of result.textStream) {
-      process.stdout.write(chalk.white(chunk));
-    }
+		if (!diffContent.trim()) {
+			console.log(chalk.gray("No diff content available.\n"));
+			continue;
+		}
 
-    console.log("\n");
-  }
+		const reviewPrompt = `
+You are an audit-grade AI code reviewer.
 
-  console.log(chalk.greenBright("\n✅ Review Complete\n"));
+Review the following Git diff for: ${file.path}
+
+Provide structured feedback:
+1. Security issues
+2. Bugs
+3. Performance improvements
+4. Code quality / style
+
+Diff:
+${diffContent}
+`;
+
+		const result = streamText({
+			model,
+			prompt: reviewPrompt,
+			system: SYSTEM_PROMPT,
+		});
+
+		for await (const chunk of result.textStream) {
+			process.stdout.write(chalk.white(chunk));
+			output += chunk;
+		}
+
+		console.log("\n");
+	}
+
+	console.log(chalk.greenBright("\n✅ Review Complete\n"));
+	return output;
 };
 
-// 🚀 Run agent if executed directly
+// 🚀 CLI run
 if (import.meta.main) {
-  await codeReviewAgent();
+	await codeReviewAgent();
 }
-

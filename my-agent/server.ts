@@ -28,7 +28,7 @@ import { codeReviewAgent } from "./index";
 
 const { serve } = Bun;
 
-// Define expected GitHub webhook payload shape
+// ✅ GitHub webhook schema
 const webhookSchema = z.object({
 	action: z.string(),
 	pull_request: z.object({
@@ -60,7 +60,24 @@ serve({
 
 				console.log(`🔍 Reviewing PR #${prNumber} in ${repo}`);
 
-				const prompt = `Review this PR diff:\n${diffUrl}`;
+				// 🔥 Fetch REAL diff content
+				const diffResponse = await fetch(diffUrl);
+				const diffText = await diffResponse.text();
+
+				const prompt = `
+You are an audit-grade AI code reviewer.
+
+Analyze this GitHub Pull Request diff and provide:
+
+1. Security issues
+2. Bugs / logical errors
+3. Performance improvements
+4. Code quality suggestions
+
+PR Diff:
+${diffText}
+`;
+
 				await codeReviewAgent(prompt);
 
 				return new Response("Review triggered", { status: 200 });

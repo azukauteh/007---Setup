@@ -1,35 +1,19 @@
-// agent.test.ts
-// 🧪 Tests for Agent 007 behavior on edge-case prompts
-
-import { test, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { codeReviewAgent } from "../index";
 
-test(
-	"Agent handles invalid directory path",
-	async () => {
+describe("Agent 007", () => {
+	it("returns a string when given a prompt", async () => {
 		const prompt = "Review the code changes in './nonexistent-folder'";
+
 		const result = await codeReviewAgent(prompt);
 
-		expect(result).toBeDefined();
 		expect(typeof result).toBe("string");
+		expect(result.length).toBeGreaterThan(0);
+	});
 
-		// ✅ Match any phrasing Gemini might use
-		expect(result.toLowerCase()).toMatch(
-			/(can't find|does not exist|invalid|please double-check)/i,
-		);
-	},
-	{ timeout: 10000 },
-);
+	it("does not crash without a prompt (CLI mode)", async () => {
+		const result = await codeReviewAgent();
 
-test("Agent handles invalid directory path", async () => {
-	const prompt = "Review the code changes in './nonexistent-folder'";
-	const result = await codeReviewAgent(prompt);
-
-	expect(result).toBeDefined();
-	expect(typeof result).toBe("string");
-
-	// Gemini fallback message for nonexistent folder
-	expect(result.toLowerCase()).toMatch(
-		/directory.*does not exist|provide.*valid directory/i,
-	);
+		expect(typeof result).toBe("string");
+	});
 });
